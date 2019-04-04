@@ -1,0 +1,31 @@
+@import '../constants.scss';
+
+.header {
+    
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1.5px solid $light-grey;
+    line-height: 2.4;
+    
+    img {
+        &.logo {
+            margin: 0 auto;
+            max-height: 33px;
+        }
+    }
+
+    .user {
+        float: right;
+        background-color: $secondary-dark;
+        margin: 0 20px 0 0;
+        padding: 0 10px;
+        border-radius: 20px;
+        color: $secondary-light;
+    }
+
+    .menu {
+        left: 20px;
+        margin: 0 0 0 20px;
+        float: left;
+    }
+}

@@ -1,121 +1,100 @@
+import './App.scss'
+
 import React, { Component } from 'react'
 
-import logo from './logo.png'
-import { API_ENDPOINT } from './config'
-
-import './App.scss'
+import ConsultantType from './components/consultant-type'
+import AvailabilityTime from './components/date-and-type'
+import Header from './components/header'
+import { API_ENDPOINT } from './utility/config'
+import { get } from './utility/helper'
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      userId: 1,
-      selectedAppointmentType: 'gp',
+      currentUser: {
+        firstName: 'Florian',
+        lastName: 'Gomis',
+        avatar: undefined,
+        dateOfBirth: '',
+      },
       availableSlots: [],
+      currentAppointment: {
+        userId: '1',
+        dateTime: '',
+        notes: '',
+        typeOfAppointment: 'GP',
+      },
     }
+  }
+
+  retrieveAvailableSlots = () => {
+    get(`${API_ENDPOINT}/availableSlots`)
+      .then(result => {
+        this.setState({ availableSlots: result.data })
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
+  retrieveUserInformation = () => {
+    get(`${API_ENDPOINT}/users/1`)
+      .then(result => {
+        this.setState({ currentUser: result.data })
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
+  consultantTypeSelectHandler = type => {
+    const state = this.state
+    this.setState({
+      ...state,
+      currentAppointment: {
+        ...state.currentAppointment,
+        dateTime: undefined,
+        typeOfAppointment: type,
+      },
+    })
+  }
+
+  dateTimeSelectHandler = time => {
+    const state = this.state
+    this.setState({
+      ...state,
+      currentAppointment: {
+        ...state.currentAppointment,
+        dateTime: time,
+      },
+    })
   }
 
   componentDidMount() {
-    document
-      .querySelectorAll('button')
-      .querySelectorAll('[id=GP-button]')
-      .attachEventHandler('click', this.onClick)
-
-    fetch(`${API_ENDPOINT}/availableSlots`)
-      .then(res => res.json())
-      .then(json => {
-        this.setState({ availableSlots: json })
-      })
-      .catch(() => {
-        // TODO: Handle error here
-      })
-  }
-
-  onClick() {
-    this.setState({ selectedAppointmentType: 'gp' })
+    this.retrieveUserInformation()
+    this.retrieveAvailableSlots()
   }
 
   render() {
-    // calculate matching slots
-    let slots = []
-    for (let i = 0; i < this.state.availableSlots.length; i++) {
-      for (
-        let j = 0;
-        j < this.state.availableSlots[i]['consultantType'].length;
-        j++
-      ) {
-        if (
-          this.state.availableSlots[j]['consultantType'][i] ===
-          this.state.selectedAppointmentType
-        ) {
-          slots.push(this.state.availableSlots[j])
-        }
-      }
-    }
+    const { currentAppointment, currentUser, availableSlots } = this.state
 
     return (
-      <div className="app">
-        <h2 className="h6">New appointment</h2>
-        <div className="app-header">
-          <img src={logo} className="app-logo" alt="Babylon Health" />
-        </div>
-        <div style={{ maxWidth: 600, margin: '24px auto' }}>
-          <div className="button" id="GP-button">
-            GP
-          </div>
-          <div
-            className="button"
-            onClick={e => {
-              this.setState({ selectedAppointmentType: 'Therapist' })
-            }}
-          >
-            Therapist
-          </div>
-          <div
-            className="button"
-            onClick={e => {
-              this.setState({ selectedAppointmentType: 'Physio' })
-            }}
-          >
-            Physio
-          </div>
-          <div
-            className="button"
-            onClick={e => {
-              this.setState({ selectedAppointmentType: 'specialist' })
-            }}
-          >
-            Specialist
-          </div>
-          <div>
-            <strong>Appointments</strong>
-            {slots.map(slot => (
-              <li
-                className="appointment-button"
-                onClick={() => {
-                  this.setState({ selectedAppointment: slot })
-                }}
-              >
-                {slot.time}
-              </li>
-            ))}
-          </div>
-          <div>
-            <strong>Notes</strong>
-            <textarea />
-          </div>
-          <div>
-            <div
-              className="button"
-              onClick={() => {
-                /* TODO: submit the data */
-              }}
-            >
-              Book appointment
-            </div>
-          </div>
-        </div>
+      <div className="app-container">
+        <Header currentUser={currentUser} />
+
+        <h1> New Appointment </h1>
+        <ConsultantType
+          currentAppointment={currentAppointment}
+          consultantTypeSelectHandler={this.consultantTypeSelectHandler}
+        />
+
+        <AvailabilityTime
+          availableSlots={availableSlots}
+          currentAppointmentType={currentAppointment.typeOfAppointment}
+          dateTimeSelectHandler={this.dateTimeSelectHandler}
+        />
       </div>
     )
   }

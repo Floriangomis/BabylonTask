@@ -6,11 +6,11 @@
     "node": ">=10.13"
   },
   "scripts": {
-    "start": "yarn server & react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "precommit": "lint-staged",
-    "server": "yarn json-server --watch ./data/data.json --port 3010"
+    "server": "json-server --watch ./data/data.json --port 3010"
   },
   "lint-staged": {
     "*.js": [
@@ -20,12 +20,15 @@
     ]
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "json-server": "^0.14.0",
+    "moment": "^2.24.0",
     "node-sass": "^4.10.0",
     "normalize.css": "^8.0.1",
+    "prettier": "^1.16.4",
     "prop-types": "^15.7.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react": "^16.8",
+    "react-dom": "^16.8"
   },
   "devDependencies": {
     "husky": "^1.3.1",

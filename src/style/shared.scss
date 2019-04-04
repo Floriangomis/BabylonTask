@@ -1,0 +1,42 @@
+@import '../constants.scss';
+
+.clickable {
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.title-section {
+    font-weight: bold;
+    color: black;
+}
+
+ul {
+    li {
+        &.list {
+            display: inline-block;
+            list-style: none;
+        }
+    }
+}
+
+.list {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid $outline-dark;
+
+    &:hover {
+        background-color: $positive-light;
+        color: white;
+    }
+
+    &.selected {
+        background-color: $positive-light;
+        color: white;
+    }
+}
