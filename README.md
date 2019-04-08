@@ -14,7 +14,7 @@ npm run start
 To run the test :
 
 ```
-npm run start
+npm run test
 ```
 
 You can also acces this application here : 
