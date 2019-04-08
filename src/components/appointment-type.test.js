@@ -4,8 +4,8 @@ import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import ConsultantType from './consultant-type'
-import { consultantType } from '../utility/helper'
+import AppointmentType from './apppointment-type'
+import { appointmentType } from '../utility/helper'
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -13,37 +13,33 @@ Enzyme.configure({ adapter: new Adapter() })
 const store = {}
 const classList = []
 const classToAdd = 'selected'
-const mockkConsultantTypeSelectHandler = type => {
-  store.type = type
+const appointmentTypeSelectHandler = type => {
+  store.appointmentType = type
 }
 
-const mockData = {
-  contactType: 'Audio',
-  dateTime: '2019-12-01T14:16:30.000Z',
-  notes: 'rew',
-  typeOfAppointment: 'GP',
-  userId: 1,
-}
-
-describe('ConsultantType Component', () => {
+describe('AppointmentType Component', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div')
-    ReactDOM.render(<ConsultantType currentAppointment={mockData} />, div)
+    ReactDOM.render(
+      <AppointmentType
+        appointmentTypeSelectHandler={appointmentTypeSelectHandler}
+      />,
+      div
+    )
   })
 
-  it('should update the store with the right type ( the last one in the array )  and add the right class to the clicked element', () => {
+  it('should update the store with the right type ( the first one in the array ) and add the right class to the clicked element', () => {
     const wrapper = Enzyme.shallow(
-      <ConsultantType
-        currentAppointment={mockData}
-        consultantTypeSelectHandler={mockkConsultantTypeSelectHandler}
+      <AppointmentType
+        appointmentTypeSelectHandler={appointmentTypeSelectHandler}
       />
     )
-    expect(store.type).to.equal(undefined)
+    expect(store.appointmentType).to.equal(undefined)
     expect(classList).not.to.include(classToAdd)
     //We then simulate a click and check that everything is working as expected.
     wrapper
       .find('li')
-      .last()
+      .first()
       .simulate('click', {
         target: {
           classList: {
@@ -53,7 +49,7 @@ describe('ConsultantType Component', () => {
           },
         },
       })
-    expect(store.type).to.equal(consultantType[consultantType.length - 1])
+    expect(store.appointmentType).to.equal(appointmentType[0])
     expect(classList).to.include(classToAdd)
   })
 })
