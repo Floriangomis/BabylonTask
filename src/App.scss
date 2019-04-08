@@ -8,3 +8,29 @@ html {
 .app-container {
   margin: 0 20px;
 }
+
+.separator {
+  border-top: 1.5px solid $light-grey;
+  margin: 10px 0;
+}
+
+.book-btn {
+  padding: 10px 0;
+  border-radius: 10px;
+  text-align: center;
+  background-color: $positive-light;
+  color: white;
+}
+
+.validation-msg {
+  text-align: center;
+
+  .error-msg {
+    color: $negative-light;
+  }
+  
+  .validation-msg {
+    color: $positive;
+    
+  }
+}

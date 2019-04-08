@@ -1,16 +1,13 @@
 import '../style/consultant-type.scss'
 import '../style/shared.scss'
 
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
+import logo from '../assets/icon2.PNG'
 import { transformDate } from '../utility/helper'
 
 class AvailabilityTime extends Component {
-  availibilityFiltered = []
-
-  componentDidMount() {}
-
   cleanSelectedDateTime = () => {
     const elements = document.querySelectorAll('.date-time .list')
     if (elements && elements.length !== 0) {
@@ -20,18 +17,6 @@ class AvailabilityTime extends Component {
     }
   }
 
-  updateAvailability() {
-    const { availableSlots, currentAppointmentType } = this.props
-
-    this.availibilityFiltered = availableSlots.filter(slotType => {
-      return (
-        slotType.consultantType.indexOf(
-          currentAppointmentType.toLowerCase()
-        ) !== -1
-      )
-    })
-  }
-
   selectDateTime(e, time) {
     this.cleanSelectedDateTime()
     e.target.classList.add('selected')
@@ -39,29 +24,36 @@ class AvailabilityTime extends Component {
   }
 
   render() {
-    this.updateAvailability()
+    const { availibilityFiltered } = this.props
     return (
       <React.Fragment>
         <div>
-          <span> & </span>
+          <span>
+            {' '}
+            <img src={logo} alt="date and time logo" />{' '}
+          </span>
           <span className="title-section"> Date & Time </span>
         </div>
         <div>
           <ul className="date-time">
-            {this.availibilityFiltered.map((value, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <li
-                    className="list clickable"
-                    onClick={e => {
-                      this.selectDateTime(e, value.time)
-                    }}
-                  >
-                    {transformDate(value.time)}
-                  </li>
-                </React.Fragment>
-              )
-            })}
+            {availibilityFiltered.length === 0 ? (
+              <div>Pick a consultant type to see any availability.</div>
+            ) : (
+              availibilityFiltered.map(value => {
+                return (
+                  <React.Fragment key={value.uuid}>
+                    <li
+                      className="list clickable"
+                      onClick={e => {
+                        this.selectDateTime(e, value.time)
+                      }}
+                    >
+                      {transformDate(value.time)}
+                    </li>
+                  </React.Fragment>
+                )
+              })
+            )}
           </ul>
         </div>
       </React.Fragment>
@@ -70,8 +62,7 @@ class AvailabilityTime extends Component {
 }
 
 AvailabilityTime.propTypes = {
-  availableSlots: PropTypes.array,
-  currentAppointmentType: PropTypes.string,
+  availibilityFiltered: PropTypes.array,
   dateTimeSelectHandler: PropTypes.func,
 }
 

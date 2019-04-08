@@ -15,7 +15,11 @@ class Header extends Component {
     return (
       <React.Fragment>
         <div className="header">
-          <div className="menu clickable">Menu</div>
+          <div className="menu clickable">
+            <div className="hamburger-menu" />
+            <div className="hamburger-menu" />
+            <div className="hamburger-menu" />
+          </div>
           <img src={logo} className="logo" alt="Babylon Health" />
           <div className="user clickable">
             {returnInitialFromName(firstName, lastName)}

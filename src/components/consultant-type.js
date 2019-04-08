@@ -1,12 +1,14 @@
 import '../style/consultant-type.scss'
 import '../style/shared.scss'
 
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
+import logo from '../assets/icon1.PNG'
 import { consultantType } from '../utility/helper'
 
 class ConsultantType extends Component {
+  // Allow us to clean the UI before to select one type.
   cleanSelectedType = () => {
     const elements = document.querySelectorAll('.type .list')
     if (elements && elements.length !== 0) {
@@ -16,10 +18,16 @@ class ConsultantType extends Component {
     }
   }
 
+  // Select Type handler.
   selectType = (e, type) => {
     this.cleanSelectedType()
     e.target.classList.add('selected')
     this.props.consultantTypeSelectHandler(type)
+  }
+
+  // Function which allow us to select by default the first Type of consultant when we load the SPA.
+  getClassName = index => {
+    return `list clickable`
   }
 
   render() {
@@ -28,7 +36,10 @@ class ConsultantType extends Component {
     return (
       <React.Fragment>
         <div>
-          <span> & </span>
+          <span>
+            {' '}
+            <img src={logo} alt="consultant type logo" />{' '}
+          </span>
           <span className="title-section"> Consultant Type </span>
         </div>
         <div>
@@ -40,13 +51,18 @@ class ConsultantType extends Component {
                   onClick={e => {
                     this.selectType(e, value)
                   }}
-                  className="list clickable"
+                  className={this.getClassName(index)}
                 >
                   {value}
                 </li>
               )
             })}
-            <div className="legend">Babylon {typeOfAppointment}</div>
+            {/* Display Only if on consultant type is selected. */}
+            {typeOfAppointment ? (
+              <div className="legend">Babylon {typeOfAppointment}</div>
+            ) : (
+              undefined
+            )}
           </ul>
         </div>
       </React.Fragment>

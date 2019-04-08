@@ -11,8 +11,11 @@
 }
 
 .title-section {
+    top: -8px;
+    position: relative;
     font-weight: bold;
     color: black;
+    padding-left: 20px;
 }
 
 ul {
@@ -26,6 +29,7 @@ ul {
 
 .list {
     margin-left: 10px;
+    margin-top: 5px;
     padding: 5px 10px;
     border-radius: 20px;
     border: 1px solid $outline-dark;
