@@ -18,4 +18,4 @@ npm run test
 ```
 
 You can also acces this application here : 
-https://tender-hodgkin-383b98.netlify.com/
+https://condescending-bartik-27398b.netlify.com/
