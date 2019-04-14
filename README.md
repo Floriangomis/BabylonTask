@@ -17,5 +17,3 @@ To run the test :
 npm run test
 ```
 
-You can also acces this application here : 
-https://condescending-bartik-27398b.netlify.com/
